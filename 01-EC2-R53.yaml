@@ -1,0 +1,61 @@
+- name: Creating instance and updating route53 record
+  hosts: local
+  connection: local
+  vars: 
+    sg_id: sg-010f0caf83cbf088a
+    ami_id: ami-09c813fb71547fc4f
+    hostedzone_id: Z01808731CH4W38TLY466
+    dns_name: jaswanthjash12.shop
+    instances: []
+  vars_prompt:
+    name: List
+    prompt: "Enter the instance names you want to create (it should be space separated): "
+    private: false
+
+  tasks:
+  - name: Create ec2-instance
+    amazon.aws.ec2_instance:
+      name: "{{ item }}"
+      instance_type: t3.micro
+      security_group: "{{ sg_id }}"
+      image_id: "{{ ami_id }}"
+      tags:
+        Name: "{{ item }}"
+    loop: "{{ List | split(' ') }}"
+    register: ec2_output
+
+  - name: Update Route53 records of servers
+    amazon.aws.route53:
+      state: present
+      zone: "{{ hostedzone_id }}"
+      record: "{{ item.item }}.{{ dns_name }}"
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].private_ip_address}}"
+      overwrite: true
+    loop: "{{ ec2_output.results }}"
+
+  - name: Update Route53 records of frontend servers
+    amazon.aws.route53:
+      state: present
+      zone: "{{ hostedzone_id }}"
+      record: "{{ dns_name }}"
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].public_ip_address}}"
+      overwrite: true
+    when:  item.item == "frontend"
+    loop: "{{ ec2_output.results }}"
+
+  # - name: Print the ec2_output
+  #   ansible.builtin.debug:
+  #     msg: "{{ ec2_output }}"
+  # - name: Print list from instances
+  #   ansible.builtin.debug:
+  #     msg: "value is {{ item }}"
+  #   loop: "{{ instances }}"
+
+  # - name: Print list from prompt
+  #   ansible.builtin.debug:
+  #     msg: "value is {{ item }}"
+  #   loop: "{{ List | split(' ') }}"
