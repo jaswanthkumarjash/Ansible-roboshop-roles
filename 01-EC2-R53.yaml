@@ -13,6 +13,7 @@
     private: false
 
   tasks:
+
   - name: Create ec2-instance
     amazon.aws.ec2_instance:
       name: "{{ item }}"
@@ -24,28 +25,31 @@
     loop: "{{ List | split(' ') }}"
     register: ec2_output
 
+  # PRIVATE IP for ALL services (including frontend)
   - name: Update Route53 records of servers
     amazon.aws.route53:
       state: present
-      zone: "{{ hostedzone_id }}"
+      zone_id: "{{ hostedzone_id }}"
       record: "{{ item.item }}.{{ dns_name }}"
       type: A
       ttl: 1
-      value: "{{ item.instances[0].private_ip_address}}"
+      value: "{{ item.instances[0].private_ip_address }}"
       overwrite: true
     loop: "{{ ec2_output.results }}"
 
-  - name: Update Route53 records of frontend servers
+  # PUBLIC IP for root domain ONLY when service = frontend
+  - name: Update Route53 root domain for frontend (public IP)
     amazon.aws.route53:
       state: present
-      zone: "{{ hostedzone_id }}"
+      zone_id: "{{ hostedzone_id }}"
       record: "{{ dns_name }}"
       type: A
       ttl: 1
-      value: "{{ item.instances[0].public_ip_address}}"
+      value: "{{ item.instances[0].public_ip_address }}"
       overwrite: true
-    when:  item.item == "frontend"
+    when: item.item == "frontend"
     loop: "{{ ec2_output.results }}"
+
 
   # - name: Print the ec2_output
   #   ansible.builtin.debug:
