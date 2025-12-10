@@ -29,7 +29,7 @@
   - name: Update Route53 records of servers
     amazon.aws.route53:
       state: present
-      zone_id: "{{ hostedzone_id }}"
+      zone: "{{ dns_name }}"
       record: "{{ item.item }}.{{ dns_name }}"
       type: A
       ttl: 1
@@ -41,7 +41,7 @@
   - name: Update Route53 root domain for frontend (public IP)
     amazon.aws.route53:
       state: present
-      zone_id: "{{ hostedzone_id }}"
+      zone: "{{ dns_name }}"
       record: "{{ dns_name }}"
       type: A
       ttl: 1
