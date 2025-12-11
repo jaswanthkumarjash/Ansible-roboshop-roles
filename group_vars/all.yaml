@@ -1,3 +1,5 @@
-MONGODB_HOST: 
-REDIS_HOST:
-RABBITMQ_HOST: 
+MONGODB_HOST: mongodb.jaswanthjash12.shop
+REDIS_HOST: redis.jaswanthjash12.shop
+RABBITMQ_HOST: rabbitmq.jaswanthjash12.shop
+MYSQLDB_HOST: mysql.jaswanthjash12.shop
+CART_HOST: cart.jaswanthjash12.shop
