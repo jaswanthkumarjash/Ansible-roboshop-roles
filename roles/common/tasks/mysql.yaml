@@ -3,3 +3,5 @@
     name: mysql-server
     state: present
 
+- name: Setting root password
+  ansible.builtin.command: mysql_secure_installation --set-root-pass {{ MYSQLDB_PASS }}

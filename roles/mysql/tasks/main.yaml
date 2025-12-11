@@ -1,0 +1,9 @@
+- name: Configuring {{ component }} server
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: mysql.yaml
+
+- name: Start and enable service
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: service-setup.yaml
