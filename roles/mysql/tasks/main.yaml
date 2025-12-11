@@ -4,6 +4,7 @@
     tasks_from: mysql.yaml
 
 - name: Start and enable service
-  ansible.builtin.include_role:
-    name: common
-    tasks_from: service-setup.yaml
+  ansible.builtin.service:
+    name: msqld
+    state: restarted
+    enabled: yes
