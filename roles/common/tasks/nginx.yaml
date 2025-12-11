@@ -1,0 +1,10 @@
+- name: Disabling existing nginx version
+  ansible.builtin.command: dnf module disable nginx -y
+
+- name: Enabling nodejs version 20 
+  ansible.builtin.command: dnf module enable nginx:1.24 -y
+
+- name: Install nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
