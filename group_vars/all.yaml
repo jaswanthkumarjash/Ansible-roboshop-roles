@@ -3,3 +3,7 @@ REDIS_HOST: redis.jaswanthjash12.shop
 RABBITMQ_HOST: rabbitmq.jaswanthjash12.shop
 MYSQLDB_HOST: mysql.jaswanthjash12.shop
 CART_HOST: cart.jaswanthjash12.shop
+USER_HOST: user.jaswanthjash12.shop
+CATALOGUE: catalogue.jaswanthjash12.shop
+SHIPPING_HOST: shipping.jaswanthjash12.shop
+PAYMENT_HOST: payment.jaswanthjash12.shop
