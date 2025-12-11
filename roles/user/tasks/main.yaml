@@ -1,0 +1,19 @@
+- name: Configuring {{ component }} server
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup.yaml
+
+- name: Nodejs custom version installation
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs.yaml
+
+- name: Systemd service setup for {{ component }}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: daemon-service.yaml
+
+- name: Service start and enable
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: service_setup.yaml
