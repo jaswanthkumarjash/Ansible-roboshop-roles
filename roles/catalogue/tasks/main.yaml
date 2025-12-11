@@ -30,9 +30,14 @@
   ansible.builtin.shell: mongosh --host {{ MONGODB_HOST }} </app/db/master-data.js
   when: catalogue_output.stdout | int < 0
 
-- name: Systemd service setup, start and enabling the service
+- name: Systemd service setup
   ansible.builtin.include_role:
     name: common
-    tasks_from: systemd-service.yaml
+    tasks_from: daemon-service.yaml
   # tags: 
   # - deployment
+
+- name: "{{ component }} service start and enable"
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: service-setup.yaml
