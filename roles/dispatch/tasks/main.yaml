@@ -1,0 +1,19 @@
+- name: Configuring {{ component }} server
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-setup.yaml
+
+- name: Installing go and dependencies
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: go.yaml
+
+- name: Creating {{ component }} service
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: daemon-service.yaml
+
+- name: Start and enable service 
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: service-setup.yaml
