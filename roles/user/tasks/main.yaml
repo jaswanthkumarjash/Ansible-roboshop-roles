@@ -16,4 +16,4 @@
 - name: Service start and enable
   ansible.builtin.import_role:
     name: common
-    tasks_from: service_setup.yaml
+    tasks_from: service-setup.yaml
