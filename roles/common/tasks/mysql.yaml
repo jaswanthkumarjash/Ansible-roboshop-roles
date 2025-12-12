@@ -2,3 +2,8 @@
   ansible.builtin.package:
     name: mysql-server
     state: present
+
+- name: Install Python MySQL dependency
+  ansible.builtin.package:
+    name: python3-PyMySQL
+    state: present
