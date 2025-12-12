@@ -1,9 +1,7 @@
-- name: Install mysql server
+- name: Install mysql server and Python MySQL dependency
   ansible.builtin.package:
-    name: mysql-server
+    name: "{{ item }}"
     state: present
-
-- name: Install Python MySQL dependency
-  ansible.builtin.package:
-    name: python3-PyMySQL
-    state: present
+  loop: 
+  - mysql-server
+  - python3-PyMySQL
