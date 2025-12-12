@@ -38,7 +38,7 @@
   community.mysql.mysql_db:
     state: import
     name: all
-    login_host: mysql.jaswanthjash12.shop
+    login_host: MYSQLDB_HOST
     login_user: root
     login_password: RoboShop@1
     target: "{{ item }}"
